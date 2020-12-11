@@ -1,49 +1,49 @@
-// 获取歌手页面的数据
-
 import jsonp from 'common/js/jsonp'
-import { axios } from 'common/js/axios'
-import {commonParams, options, juzi, yqqapi} from './config'
-// import { commonParameters } from './config'
+import { commonParams, options } from './config'
+import axios from 'axios'
 
-// 轮播图数据
-export async function getSinger() {
-  const data = ''
-  let singerUrl = ''
-  // 从我的服务器获取QQ音乐的接口url
-  await axios({
-    url: `${juzi}/singer`
-  }).then(res => {
-    singerUrl = res.data.url[0]
-    console.log()
+export function getSingerList() {
+  const url = 'https://c.y.qq.com/v8/fcg-bin/v8.fcg'
+
+  const data = Object.assign({}, {
+    channel: 'singer',
+    page: 'list',
+    key: 'all_all_all',
+    pagesize: 100,
+    pagenum: 1,
+    g_tk: 5381,
+    loginUin: 0,
+    hostUin: 0,
+    format: 'jsonp',
+    inCharset: 'utf8',
+    outCharset: 'utf-8',
+    notice: 0,
+    platform: 'yqq',
+    needNewCode: 0
   })
 
-  // 拿到接口去QQ音乐获取数据
-  return jsonp(singerUrl, data)
+  return jsonp(url, data, options)
 }
 
 export function getSingerDetail(singerId) {
   const url = 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg'
-  const data = Object.assign({}, commonParams, {
+
+  const data = Object.assign({}, {
+    g_tk: 5381,
+    loginUin: 0,
     hostUin: 0,
-    needNewCode: 0,
+    format: jsonp,
+    inCharset: 'utf8',
+    outCharset: 'utf-8',
+    notice: 0,
     platform: 'yqq',
+    needNewCode: 0,
+    singermid: singerId,
     order: 'listen',
     begin: 0,
-    num: 80,
-    songstatus: 1,
-    singermid: singerId
+    num: 200,
+    songstatus: 1
   })
-  return jsonp(url, data, options)
-}
 
-// 获取歌曲源地址
-export async function getSong(mid) {
-  let url = ''
-  await axios({
-    url: `${yqqapi}/music/song?songmid=${mid}&guid=85640610&lyric=1`
-  }).then(res => {
-    // console.log(res)
-    url = res.data
-  })
-  return url
+  return jsonp(url, data, options)
 }
