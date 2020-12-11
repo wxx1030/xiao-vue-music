@@ -1,0 +1,193 @@
+<template>
+  <div class="slider" ref="slider">
+    <div class="slider-group" ref="sliderGroup">
+      <slot></slot>
+    </div>
+    <!-- 导航小圆点 -->
+    <div class="dots">
+      <span class="dot" v-for="(item, index) in dots" :key="index"
+            :class="{active: currentPageIndex === (index-1)}"></span>
+    </div>
+  </div>
+</template>
+<script>
+  import BScroll from '@better-scroll/core'// better-scroll 是一款重点解决移动端（已支持 PC）各种滚动场景需求的插件。
+  import Slide from '@better-scroll/slide'
+  import { addClass } from 'common/js/dom'
+  BScroll.use(Slide)
+  export default {
+    data() {
+      return {
+        dots: [],
+        currentPageIndex: -1
+      }
+    },
+    props: {
+      loop: {
+        type: Boolean,
+        default: true
+      },
+      autoPlay: {
+        type: Boolean,
+        default: true
+      },
+      interval: {
+        type: Number,
+        default: 3000
+      }
+    },
+    mounted() {
+      setTimeout(() => {
+        this._setSliderWidth()
+        this._initDots()
+        this._initSlider()
+
+        if (this.autoPlay) {
+          this._play()
+        }
+      }, 20)
+      window.addEventListener('resize', () => {
+        if (!this.slider) return
+        // 窗口改变的大小时重新计算clienWidth 此时不需要再加上两个多余的width
+        this._setSliderWidth(true)
+        this.slider.refresh()
+      })
+    },
+    // keep-alive再次进入
+    // 初次进入时：created > mounted > activated；退出后触发 deactivated
+    // 再次进入：会触发 activated；事件挂载的方法等，只执行一次的放在 mounted 中；组件每次进去执行的方法放在 activated 中
+    activated() {
+      if (this.autoPlay) {
+        this._play()
+      }
+    },
+    deactivated() {
+      clearTimeout(this.timer)
+    },
+    beforeDestroy() {
+      this.slider.destroy()
+    },
+    methods: {
+      _setSliderWidth(isResize) {
+        this.children = this.$refs.sliderGroup.children
+        // console.log(this.$refs.sliderGroup.children)
+        let width = 0
+        let sliderWidth = this.$refs.slider.clientWidth
+
+        for (let i = 0; i < this.children.length; i++) {
+          let child = this.children[i]
+          addClass(child, 'slider-item')
+          child.style.width = sliderWidth + 'px'
+          width += sliderWidth
+        }
+
+        if (this.loop && !isResize) {
+          width += 2 * sliderWidth
+        }
+        this.$refs.sliderGroup.style.width = width + 'px'
+      },
+      _initSlider() {
+        this.slider = new BScroll(this.$refs.slider, {
+          scrollX: true,
+          scrollY: false,
+          slide: {
+            threshold: 100
+          },
+          momentum: false,
+          bounce: false,
+          // stopPropagation: true // 是否阻止事件冒泡。多用在嵌套 scroll 的场景。
+        })
+        this.slider.on('scrollEnd', this._onScrollEnd)
+
+        this.slider.on('slideWillChange', (page) => {
+          // this.currentPageIndex = page.pageX
+          let pageIndex = page.pageX
+          if (this.loop) {
+            pageIndex -= 1
+          }
+          this.currentPageIndex = pageIndex
+
+          if (this.autoPlay) {
+            clearTimeout(this.timer)
+            this._play()
+          }
+        })
+
+        // // 获取当前页 currentPageIndex
+        // this.slider.on('scrollEnd', () => {
+        //   let pageIndex = this.slider.getCurrentPage().pageX
+        //   if (this.loop) {
+        //     pageIndex -= 1
+        //   }
+        //   this.currentPageIndex = pageIndex
+
+        //   if (this.autoPlay) {
+        //     clearTimeout(this.timer)
+        //     this._play()
+        //   }
+        // })
+
+        // this.slider.on('beforeScrollStart', () => {
+        //   if (this.autoPlay) {
+        //     clearTimeout(this.timer)
+        //   }
+        // })
+      },
+      _initDots() {
+        this.dots = new Array(this.children.length)
+      },
+      _play() {
+        let pageIndex = this.currentPageIndex + 1
+        if (this.loop) {
+          pageIndex += 1
+        }
+        this.timer = setTimeout(() => {
+          this.slider.goToPage(pageIndex, 0, 400)
+        }, this.interval)
+      }
+    },
+    destroyed() {
+      clearTimeout(this.timer)
+    }
+  }
+</script>
+<style lang="stylus" scoped>
+  @import '~common/stylus/variable'
+  .slider
+    min-height: 1px
+    .slider-group
+      position: relative
+      overflow: hidden
+      white-space: nowrap
+      .slider-item
+        float: left
+        box-sizing: border-box
+        overflow: hidden
+        text-align: center
+        a
+          display: block
+          width: 100%
+          overflow: hidden
+          text-decoration: none
+        img
+          display: block
+          width: 100%
+    .dots
+      position: absolute
+      right: 0
+      left: 0
+      bottom: 12px
+      text-align: center
+      font-size: 0
+      .dot
+        display: inline-block
+        margin: 0 4px
+        width: 8px
+        height: 8px
+        border-radius: 50%
+        background: $color-text-l
+        &.active
+          width: 20px
+          border-radius: 5px
+          background: $color-text-ll
+</style>
