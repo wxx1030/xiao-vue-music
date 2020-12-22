@@ -7,6 +7,7 @@ import router from './router'
 import 'common/stylus/index.styl'
 import fastclick from "fastclick"
 import VueLazyLoad from "vue-lazyload"
+import store from './store/index'
 Vue.config.productionTip = false
 // body 下所有按钮点击没有300毫秒延迟
 fastclick.attach(document.body)
@@ -17,5 +18,6 @@ Vue.use( VueLazyLoad, {
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })

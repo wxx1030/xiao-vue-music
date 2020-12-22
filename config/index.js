@@ -10,24 +10,26 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    // dev: {
+    dev: {
     
-    //   // Paths
-    //   assetsSubDirectory: 'static',
-    //   assetsPublicPath: '/',
-    //   proxyTable: {
-    //     '/api/getDiscList': {
-    //       target: 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg',
-    //       bypass: function (req, res, proxyOptions) {
-    //         req.headers.referer = 'https://c.y.qq.com';
-    //         req.headers.host = 'c.y.qq.com';
-    //       },
-    //       pathRewrite: {
-    //         '^/api/getDiscList': ''
-    //       }
-    //     }
-    //   }
-    // },
+      // Paths
+      assetsSubDirectory: 'static',
+      assetsPublicPath: '/',
+      // proxyTable: {
+      //   '/api/getDiscList': {
+      //     target: 'https://u.y.qq.com/cgi-bin/musics.fcg',
+      //     secure: true,
+      //     changeOrigin: true, //是否开启代理
+      //     bypass: function (req, res, proxyOptions) {
+      //       req.headers.referer = 'https://u.y.qq.com';
+      //       req.headers.host = 'u.y.qq.com';
+      //     },
+      //     pathRewrite: {
+      //       '^/api/getDiscList': ''
+      //     }
+      //   }
+      // }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -67,7 +69,21 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
+    proxyTable: {
+      '/api/getDiscList': {
+        target: 'https://u.y.qq.com/cgi-bin/musics.fcg',
+        secure: true,
+        changeOrigin: true, //是否开启代理
+        bypass: function (req, res, proxyOptions) {
+          req.headers.referer = 'https://u.y.qq.com';
+          req.headers.host = 'u.y.qq.com';
+        },
+        pathRewrite: {
+          '^/api/getDiscList': ''
+        }
+      }
+    },
 
     /**
      * Source Maps

@@ -7,6 +7,7 @@
   import BScroll from 'better-scroll'
   export default {
     props: {
+      // 
       probeType: {
         type: Number,
         default: 1
@@ -19,6 +20,7 @@
         type: Array,
         default: null
       },
+      // 是否监听滚动事件
       listenScroll: {
         type: Boolean,
         default: false
@@ -83,10 +85,13 @@
       refresh() {
         this.scroll && this.scroll.refresh()
       },
+      // 滚动到相应位置
       scrollTo() {
         this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
       },
+      // 滚动到指定的目标元素
       scrollToElement() {
+        console.log(arguments)
         this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       }
     },
