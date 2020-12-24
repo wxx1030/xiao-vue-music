@@ -44,6 +44,23 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           console.log(e)
         })
       })
+      app.get('/api/getSongVkey', function (req, res) {
+        const url = 'https://u.y.qq.com/cgi-bin/musics.fcg'
+        axios.get(url, {
+            headers: {
+                referer: 'https://u.y.qq.com/',
+                host: 'u.y.qq.com'
+            },
+            params: req.query
+        }).then((response) => {
+            res.json(response.data)
+        }).catch((e) => {
+            res.json({
+                ERR_OK: 1,
+                data: e
+            })
+        })
+    })
     },
     clientLogLevel: 'warning',
     historyApiFallback: {

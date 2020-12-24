@@ -10,6 +10,7 @@ const mutations = {
   [types.SET_FULL_SCREEN](state, flag) {
     state.fullScreen = flag
   },
+  // 设置当前播放列表
   [types.SET_PLAYLIST](state, list) {
     state.playList = list
   },

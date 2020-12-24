@@ -5,7 +5,7 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
-  import { getSingerDetail } from 'api/singer'
+  import { getSingerDetail, getSongVkey  } from 'api/singer'
   import { ERR_OK } from 'api/config'
   import {createSong} from 'common/js/song'
   import MusicList from 'components/musicList/musicList'
@@ -42,6 +42,7 @@
         getSingerDetail(this.singer.id).then(res => {
           if (res.code === ERR_OK) {
             this.songs = this._normalizeSongs(res.data.list)
+            console.log(this.songs)
           }
         })
       },
@@ -50,11 +51,19 @@
         let ret = []
         list.forEach((item, index) => {
           let { musicData } = item
-          if (musicData.songid && musicData.albummid) {
-            ret.push(createSong(musicData))
-          }
+          // if (musicData.songid && musicData.albummid) {
+          //   console.log(musicData)
+          //   ret.push(createSong(musicData))
+          // }
+          // console.log(musicData)
+          getSongVkey(musicData.songmid).then((res) => {
+            const purl = res.req_0.data.midurlinfo[0].purl
+            // console.log(songVkey)
+            if (musicData.songid && musicData.albummid && purl) {
+              ret.push(createSong(musicData, purl))
+            }
+          })
         })
-        console.log(ret)
         return ret
       }
     }

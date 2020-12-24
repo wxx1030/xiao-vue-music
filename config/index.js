@@ -82,7 +82,19 @@ module.exports = {
         pathRewrite: {
           '^/api/getDiscList': ''
         }
-      }
+      },
+      '/api/getSongVkey ': {
+        target: 'https://u.y.qq.com/cgi-bin/musicu.fcg',
+        secure: true,
+        changeOrigin: true, //是否开启代理
+        bypass: function (req, res, proxyOptions) {
+          req.headers.referer = 'https://u.y.qq.com';
+          req.headers.host = 'u.y.qq.com';
+        },
+        pathRewrite: {
+          '^/api/getSongVkey ': ''
+        }
+      },
     },
 
     /**

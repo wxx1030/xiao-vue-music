@@ -1,9 +1,9 @@
 export const SET_SINGER = 'SET_SINGER'
 
 export const SET_PLAYING_STATE = 'SET_PLAYING_STATE'
-
+// 播放器全屏 Boolean
 export const SET_FULL_SCREEN = 'SET_FULL_SCREEN'
-
+ // 当前歌曲播放列表 Array
 export const SET_PLAYLIST = 'SET_PLAYLIST'
 
 export const SET_SEQUENCE_LIST = 'SET_SEQUENCE_LIST'
