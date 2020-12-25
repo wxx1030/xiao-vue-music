@@ -8,9 +8,10 @@
       <!-- 小球 -->
       <div class="progress-btn-wrapper" ref="progressBtn">
         <div class="progress-btn"
-             @touchstart.prevent="progressTouchStart"
-             @touchmove.prevent="progressTouch"
-             @touchend="progressTouchEnd">
+            @touchstart.prevent="progressTouchStart"
+            @touchmove.prevent="progressTouch"
+            @touchend="progressTouchEnd"
+        >
         </div>
       </div>
     </div>
@@ -40,9 +41,10 @@ export default {
       // 做一个标记表示已经按下了
       this.touch.initiated = true
       // 按下的X坐标
-      this.touch.startX = e.touches[0].pageX
+      this.touch.startX = e.touches[0].pageX //触摸目标在页面中的x坐标
       // 按下的时候小球已经在进度条上偏移的距离
       this.touch.left = this.$refs.progress.clientWidth
+      console.log(this.touch)
     },
     // 拖动小球触发
     progressTouch(e) {

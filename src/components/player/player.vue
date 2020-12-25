@@ -63,7 +63,7 @@
               </span>
               <!--播放进度条-->
               <div class="progress-bar-wrapper">
-                <!-- <progress-bar :percent="percent" @percentChange="onProgressBarChange"></progress-bar> -->
+                <progress-bar :percent="percent" @percentChange="onProgressBarChange"></progress-bar>
               </div>
               <span class="time time-r">
                 {{format(currentSong.duration)}}
@@ -124,6 +124,7 @@
         @canplay="ready"
         @error="error"
         @timeupdate="updateTime"
+        @ended="end"
       >
       </audio>
     </div>
@@ -131,8 +132,9 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import { playMode } from 'common/js/config'
+import { playMode } from 'common/js/config' // 播放顺序
 import { prefixStyle } from 'common/js/dom'
+import ProgressBar from 'base/progress-bar/progress-bar'
 import ProgressCircle from 'base/progress-circle/progress-circle'
 import animations from 'create-keyframe-animation'
 
@@ -147,7 +149,7 @@ export default {
         };
     },
     components: {
-    //   ProgressBar,
+      ProgressBar,
       ProgressCircle,
     //   Scroll,
     //   PlayList
@@ -167,6 +169,10 @@ export default {
         },
         iconMode() {
           return this.mode === playMode.sequence ? 'icon-sequence' : this.mode === playMode.loop ? 'icon-loop' : 'icon-random'
+        },
+        // 计算播放进度百分比
+        percent() {
+          return this.currentTime / this.currentSong.duration
         },
         ...mapGetters([
             'playing',
@@ -339,8 +345,34 @@ export default {
           }
           return num
         },
+        // 当前歌曲播放完毕
+        end() {
+          // 判断是否是单曲循环模式
+          if (this.mode === playMode.loop) {
+            // 单曲循环重新播放
+            this.loop()
+          } else {
+            // 下一首
+            this.next()
+          }
+        },
         updateTime(e) {
           this.currentTime = e.target.currentTime
+        },
+        // 进度条
+        // 接收子组件传递过来的拖动进度
+        onProgressBarChange(percent) {
+          // 设置当前进度对应的秒数
+          const currentTime = this.currentSong.duration * percent
+          this.$refs.audio.currentTime = currentTime
+          // 如果在暂停状态下切歌则开始播放
+          if (!this.playing) {
+            this.togglePlaying()
+          }
+        //   // 切换进度的时候更新歌词滚动的进度
+        //   if (this.currentLyric) {
+        //     this.currentLyric.seek(currentTime * 1000)
+        //   }
         },
         back() {
           this.setFullScreen(false)
@@ -587,9 +619,9 @@ export default {
         img
           border-radius: 50%
           &.play
-            animation: rotate 10s linear infinite
+            animation: rotate 10s linear infinite//规定动画应该无限次播放
           &.pause
-            animation-play-state: paused
+            animation-play-state: paused // 暂停动画
       .text
         display: flex
         flex-direction: column

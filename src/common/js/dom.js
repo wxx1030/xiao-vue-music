@@ -36,7 +36,7 @@ let vendor = (() => {
     ms: 'msTransform',
     standard: 'transform'
   }
-
+  console.log(elementStyle)
   for (let key in transformNames) {
     if (elementStyle[transformNames[key]] !== undefined) {
       return key
@@ -54,6 +54,8 @@ export function prefixStyle(style) {
   if (vendor === 'standard') {
     return style
   }
+  console.log(style)
+  console.log(vendor + style.charAt(0).toUpperCase() + style.substr(1))
   // 拼接 eg：webkitTransform
   return vendor + style.charAt(0).toUpperCase() + style.substr(1)
 }

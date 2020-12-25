@@ -89,13 +89,13 @@ export function getSongList(disstid) {
     utf8: 1,
     onlysong: 0,
     platform: 'yqq',
+    format: 'json',
     hostUin: 0,
     needNewCode: 0
   })
-
   return axios.get(url, {
     params: data
-  }).then((res) => {
+  }).then(res => {
     return Promise.resolve(res.data)
   })
 }

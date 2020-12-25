@@ -42,7 +42,7 @@
   import { getRecommend, getDiscList } from 'api/recommend'
   import { ERR_OK } from 'api/config'
 //   import { playListMixin } from 'common/js/mixin'
-//   import { mapMutations } from 'vuex'
+  import { mapMutations } from 'vuex'
 
   export default {
     // mixins: [playListMixin],
@@ -89,15 +89,17 @@
           this.checkedload = true
         }
       },
+      // 歌单点击事件
       selectItem(item) {
-        // this.$router.push({
-        //   path: `/recommend/${item.dissid}`
-        // })
-        // this.setDisc(item)
+        this.$router.push({
+          path: `/recommend/${item.content_id}`
+        })
+        this.setDisc(item)
       },
-    //   ...mapMutations({
-    //     setDisc: 'SET_DISC'
-    //   })
+      ...mapMutations({
+        setDisc: 'SET_DISC',
+        setSinger: 'SET_SINGER'
+      })
     }
   }
 </script>

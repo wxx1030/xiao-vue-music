@@ -5,6 +5,7 @@ import Search from 'components/search/search'
 import Singer from 'components/singer/singer'
 import SingerDetail from 'components/singer/singerDetail'
 import Recommend from 'components/recommend/recommend'
+import Disc from 'components/disc/disc'
 // import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
@@ -18,7 +19,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: 'recommend'
+      redirect: 'recommend',
     },
     {
       path: '/rank',
@@ -45,6 +46,10 @@ export default new Router({
     {
       path: '/recommend',
       component: Recommend,
+      children: [{
+        path: ':id',
+        component: Disc
+      }]
     }
   ]
 })
