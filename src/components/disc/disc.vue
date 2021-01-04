@@ -39,7 +39,6 @@ export default {
         if (res.code === ERR_OK) {
           console.log(res.code)
           this.songs = this._normalizeSongs(res.cdlist[0].songlist)
-          // console.log(this.songs)
         }
       })
     },

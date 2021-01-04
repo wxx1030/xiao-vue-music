@@ -41,11 +41,11 @@
   import Scroll from 'base/scroll/scroll'
   import { getRecommend, getDiscList } from 'api/recommend'
   import { ERR_OK } from 'api/config'
-//   import { playListMixin } from 'common/js/mixin'
+  import { playListMixin } from 'common/js/mixin'
   import { mapMutations } from 'vuex'
 
   export default {
-    // mixins: [playListMixin],
+    mixins: [playListMixin],
     created () {
       this._getRecommend()
       this._getDiscList()

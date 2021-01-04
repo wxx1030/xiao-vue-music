@@ -52,7 +52,7 @@
   const transform = prefixStyle('transform')
 
   export default {
-    // mixins: [playListMixin],
+    mixins: [playListMixin],
     props: {
       bgImage: {
         type: String,

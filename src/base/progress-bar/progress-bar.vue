@@ -44,7 +44,6 @@ export default {
       this.touch.startX = e.touches[0].pageX //触摸目标在页面中的x坐标
       // 按下的时候小球已经在进度条上偏移的距离
       this.touch.left = this.$refs.progress.clientWidth
-      console.log(this.touch)
     },
     // 拖动小球触发
     progressTouch(e) {

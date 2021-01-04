@@ -83,6 +83,7 @@
         this.scroll && this.scroll.disable()
       },
       refresh() {
+        console.log('refresh')
         this.scroll && this.scroll.refresh()
       },
       // 滚动到相应位置
@@ -91,7 +92,6 @@
       },
       // 滚动到指定的目标元素
       scrollToElement() {
-        console.log(arguments)
         this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       }
     },

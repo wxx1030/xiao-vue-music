@@ -1,6 +1,6 @@
 <template>
     <div class="singer"  ref="singer">
-      <singer-list :data="singers" @select="selectSinger"></singer-list>
+      <singer-list :data="singers" @select="selectSinger" ref="list"></singer-list>
       <router-view></router-view>
     </div>
 </template>
@@ -11,9 +11,11 @@ import { ERR_OK } from 'api/config'
 import Singer from 'common/js/singer'
 import SingerList from 'base/singerList/singerList'
 import { mapMutations } from 'vuex'
+import {playListMixin} from 'common/js/mixin'
 const HOT_NAME = '热门'
 const HOT_SINGER_LEN = 10
 export default {
+    mixins: [playListMixin],
     data() {
       return {
         singers: []
@@ -33,6 +35,13 @@ export default {
       ...mapMutations({
         setSinger: 'SET_SINGER'
       }),
+      // 当底部出现mini播放器的时候 重新计算高度
+      handlePlayList(playlist) {
+        console.log('1111')
+        const bottom = playlist.length > 0 ? '60px' : ''
+        this.$refs.singer.style.bottom = bottom
+        this.$refs.list.refresh()
+      },
       _getSingerList () {
         getSingerList().then((res)=> {
           if (res.code === ERR_OK) {
