@@ -18,3 +18,4 @@ export const options1 = {
   prefix: 'playlistinfoCallback'
 }
 export const ERR_OK = 0
+export const yqqapi = 'http://111.229.20.115:8001'
