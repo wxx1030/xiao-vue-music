@@ -123,6 +123,7 @@
             </div>
         </div>
       </transition>
+     <play-list ref="playList"></play-list>
       <audio :src="currentSong.url" 
         ref="audio" 
         @canplay="ready"
@@ -144,6 +145,7 @@ import animations from 'create-keyframe-animation'
 import { shuffle } from 'common/js/util' // 生成随机列表
 import Lyric from 'lyric-parser'
 import Scroll from 'base/scroll/scroll'
+import PlayList from 'components/playlist/playlist'
 
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
@@ -163,7 +165,7 @@ export default {
       ProgressBar,
       ProgressCircle,
       Scroll,
-    //   PlayList
+      PlayList
     },
     computed: {
         playIcon() {
@@ -193,6 +195,7 @@ export default {
             'currentSong',
             'mode',
             'sequenceList',
+            'favoriteList'
         ])
      
     },
@@ -371,6 +374,7 @@ export default {
         },
         ready () {
           this.songReady = true
+          this.savePlayHistory(this.currentSong)
         },
         // 格式化时间
         format(interval) {
@@ -489,23 +493,23 @@ export default {
         },
 
         toggleFavorite(song) {
-        //   if (this.isFavorite(song)) {
-        //     this.deleteFavoriteList(song)
-        //   } else {
-        //     this.saveFavoriteList(song)
-        //   }
+          if (this.isFavorite(song)) {
+            this.deleteFavoriteList(song)
+          } else {
+            this.saveFavoriteList(song)
+          }
         },
         getFavoriteIcon(song) {
-        //   if (this.isFavorite(song)) {
-        //     return 'icon-favorite'
-        //   }
-        //   return 'icon-not-favorite'
+          if (this.isFavorite(song)) {
+            return 'icon-favorite'
+          }
+          return 'icon-not-favorite'
         },
         isFavorite(song) {
-        //   const index = this.favoriteList.findIndex((item) => {
-        //     return item.id === song.id
-        //   })
-        //   return index > -1
+          const index = this.favoriteList.findIndex((item) => {
+            return item.id === song.id
+          })
+          return index > -1
         },
         // 设置playing状态 watch playing的变化 实现播放暂停
         togglePlaying() {
@@ -545,7 +549,8 @@ export default {
         },
         // 歌曲列表
         showPlayList() {
-        //   this.$refs.playList.show()
+          console.log(this.$refs.playList)
+          this.$refs.playList.show()
         },
         ...mapMutations({
           setFullScreen: 'SET_FULL_SCREEN',
@@ -555,7 +560,9 @@ export default {
           setPlaylist: 'SET_PLAYLIST',
         }),
         ...mapActions([
-          'savePlayHistory'
+          'savePlayHistory',
+          'saveFavoriteList',
+          'deleteFavoriteList'
         ])
 
     }

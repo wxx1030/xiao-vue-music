@@ -113,6 +113,9 @@
       showConfirm() {
         this.$refs.confirm.show()
       },
+      blurInput() {
+        this.$refs.searchBox.blur()
+      },
       // 截取前10个作为热门搜索key
       _getHotKey() {
         getHotKey().then(res => {

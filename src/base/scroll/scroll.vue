@@ -82,7 +82,6 @@
         this.scroll && this.scroll.disable()
       },
       refresh() {
-        console.log('refresh')
         this.scroll && this.scroll.refresh()
       },
       // 滚动到相应位置

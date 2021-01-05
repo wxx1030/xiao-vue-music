@@ -7,7 +7,7 @@ import SingerDetail from 'components/singer/singerDetail'
 import RankDetail from 'components/rank/rankDetail'
 import Recommend from 'components/recommend/recommend'
 import Disc from 'components/disc/disc'
-// import HelloWorld from '@/components/HelloWorld'
+import UserCenter from 'components/userCenter/userCenter'
 
 Vue.use(Router)
 //push 
@@ -51,6 +51,10 @@ export default new Router({
         path: ':id',
         component: Disc
       }]
+    },
+    {
+      path: '/user',
+      component: UserCenter
     }
   ]
 })
