@@ -272,6 +272,7 @@ export default {
           const {x, y, scale} = this._getPosAndScale()
           this.$refs.cdWrapper.style[transform] = `translate3d(${x}px,${y}px,0) scale(${scale})`
           this.$refs.cdWrapper.addEventListener('transitionend', done)
+          console.log('报错1')
         },
         afterLeave() {
           this.$refs.cdWrapper.style.transition = ''
@@ -291,7 +292,7 @@ export default {
           // 缩放尺度
           const scale = targetWidth / width
           const x = -(window.innerWidth / 2 - paddingLeft)
-          console.log(window.innerWidth, x)
+        //   console.log(window.innerWidth, x)
           const y = window.innerHeight - paddingTop - width / 2 - paddingBottom
           return {
             x,
@@ -549,7 +550,6 @@ export default {
         },
         // 歌曲列表
         showPlayList() {
-          console.log(this.$refs.playList)
           this.$refs.playList.show()
         },
         ...mapMutations({

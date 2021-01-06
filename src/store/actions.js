@@ -11,6 +11,7 @@ function findIndex(list, song) {
 
 export const selectPlay = ({ commit, state }, { list, index }) => {
   // 提交设置歌曲列表
+  console.log('报错2')
   commit(types.SET_SEQUENCE_LIST, list)
   if (state.mode === playMode.random) {
     // 生成随机列表
@@ -26,12 +27,12 @@ export const selectPlay = ({ commit, state }, { list, index }) => {
     // 设置当前播放歌曲的索引
     commit(types.SET_CURRENT_INDEX, index)
   }
-  console.log(list)
   // 设置播放器状态 全屏 or 小屏
   commit(types.SET_FULL_SCREEN, true)
 
   // 设置播放状态 播放 or 暂停
   commit(types.SET_PLAYING_STATE, true)
+  console.log(list)
 }
 
 export const randomPlay = ({ commit }, { list }) => {

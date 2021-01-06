@@ -12,10 +12,12 @@ const mutations = {
   },
   // 设置当前播放列表
   [types.SET_PLAYLIST](state, list) {
-    state.playList = list
+    state.playList = Object.assign([], list)
+    // state.playList = list
   },
   [types.SET_SEQUENCE_LIST](state, list) {
-    state.sequenceList = list
+    state.sequenceList = Object.assign([], list)
+    // state.sequenceList = list
   },
   [types.SET_PLAY_MODE](state, mode) {
     state.mode = mode

@@ -106,6 +106,7 @@
         this.$router.back()
       },
       selectItem(item, index) {
+        // console.log('报错')
         this.selectPlay({
           list: this.songs,
           index
