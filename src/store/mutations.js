@@ -12,6 +12,7 @@ const mutations = {
   },
   // 设置当前播放列表
   [types.SET_PLAYLIST](state, list) {
+    console.log(list)
     state.playList = Object.assign([], list)
     // state.playList = list
   },
